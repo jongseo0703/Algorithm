@@ -11,9 +11,9 @@ public class Main {
 
         int L = Integer.parseInt(br.readLine());
 
-        HashMap<Character, Integer> map = new HashMap<>();
+        HashMap<Character, Long> map = new HashMap<>();
 
-        for(int i = 1; i <= 26; i++) {
+        for(long i = 1; i <= 26; i++) {
             map.put((char)('a' + i - 1), i);
         }
 
@@ -25,10 +25,12 @@ public class Main {
             c[i] = k.charAt(i);
         }
 
-        int sumHashing = 0;
+        long sumHashing = 0;
+        int mod = 1234567891;
 
         for(int i = 0; i < c.length; i++) {
             sumHashing += map.get(c[i]) * multiple(L, i);
+            sumHashing %= mod;
         }
 
         sb.append(sumHashing);
@@ -37,11 +39,13 @@ public class Main {
 
     }
 
-    public static int multiple(int L, int n) {
+    public static long multiple(int L, int n) {
 
-        int multi = 1;
+        long multi = 1;
+        int mod = 1234567891;
         for(int i = L - n; i < L; i++) {
             multi *= 31;
+            multi %= mod;
         }
 
         return multi;
