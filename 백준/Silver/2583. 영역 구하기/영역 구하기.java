@@ -9,6 +9,8 @@ public class Main {
     static boolean[][] isVisited;
     static List<Integer> list;
 
+    static int count;
+
     static int M, N, K;
 
     public static void main(String[] args) throws IOException {
@@ -54,8 +56,9 @@ public class Main {
         for(int i = 0; i < M; i++) {
             for(int j = 0; j < N; j++) {
                 if(map[i][j] == 1 && !isVisited[i][j]) {
-                    int area = dfs(i, j);
-                    list.add(area);
+                    count = 0;
+                    dfs(i, j);
+                    list.add(count);
                 }
             }
         }
@@ -72,9 +75,9 @@ public class Main {
 
     }
 
-    static int dfs(int y, int x) {
+    static void dfs(int y, int x) {
         isVisited[y][x] = true;
-        int area = 1;
+        count++;
 
         for(int i = 0; i < 4; i++) {
             int dx = dirX[i] + x;
@@ -82,12 +85,11 @@ public class Main {
 
             if(checkArray(dy, dx)) {
                 if(map[dy][dx] == 1 && !isVisited[dy][dx]) {
-                    area += dfs(dy, dx);
+                    dfs(dy, dx);
                 }
             }
         }
 
-        return area;
     }
 
     static boolean checkArray(int dy, int dx) {
