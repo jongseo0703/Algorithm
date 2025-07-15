@@ -9,8 +9,6 @@ public class Main {
   static int[][] cloneMap;
   static boolean[][] isVisited;
 
-  static List<int[]> changed = new ArrayList<>();
-
   static int N, M;
 
   public static void main(String[] args) throws IOException {
@@ -44,29 +42,27 @@ public class Main {
       }
     }
 
+    int startY = 0;
+    int startX = 0;
+    int origin = 0;
+    int target = 0;
+
     for(int i = 0; i < N; i++) {
       for(int j = 0; j < M; j++) {
         if(map[i][j] != cloneMap[i][j]) {
-          changed.add(new int[]{i, j});
+          startY = i;
+          startX = j;
+          break;
         }
       }
     }
 
-    if(changed.isEmpty()) {
-      sb.append("YES");
-      System.out.print(sb);
-      return;
-    }
-
-    int startY = changed.get(0)[0];
-    int startX = changed.get(0)[1];
-    int origin = map[startY][startX];
-    int target = cloneMap[startY][startX];
+    origin = map[startY][startX];
+    target = cloneMap[startY][startX];
 
     bfs(startY, startX, origin, target);
 
     boolean flag = true;
-
 
     for(int i = 0; i < N; i++) {
       for(int j = 0; j < M; j++) {
