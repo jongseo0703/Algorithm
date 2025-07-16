@@ -63,21 +63,22 @@ public class Main {
         int dy = curY + dirY[i];
         int dx = curX + dirX[i];
 
-        int midY1 = curY + checkY[i][0];
-        int midX1 = curX + checkX[i][0];
-        int midY2 = curY + checkY[i][1];
-        int midX2 = curX + checkX[i][1];
+        boolean isBlocked = false;
 
-        if(!checkArray(midY1, midX1) || !checkArray(midY2, midX2)) {
-          continue;
-        }
+        for(int j = 0; j < 2; j++) {
+          int midY = curY + checkY[i][j];
+          int midX = curX + checkX[i][j];
 
-        if((midY1 == R2 && midX1 == C2) || (midY2 == R2 && midX2 == C2)) {
-          continue;
+          if(checkArray(midY, midX)) {
+            if(midY == R2 && midX == C2) {
+              isBlocked = true;
+              break;
+            }
+          }
         }
 
         if(checkArray(dy, dx)) {
-          if(!isVisited[dy][dx]) {
+          if(!isVisited[dy][dx] && !isBlocked) {
             isVisited[dy][dx] = true;
             queue.add(new int[]{dy, dx, cnt + 1});
           }
