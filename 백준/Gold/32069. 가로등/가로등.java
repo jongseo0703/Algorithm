@@ -2,75 +2,50 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-  static int[] dirX = {-1, 1};
-
-  static int[] map;
-  static boolean[] isVisited;
-  static int[] dist;
-
-  static int L, N, K;
-
   public static void main(String[] args) throws IOException {
 
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
 
-    StringBuilder sb = new StringBuilder();
-
-    StringTokenizer st;
-
-    st = new StringTokenizer(br.readLine());
-
-    L = Integer.parseInt(st.nextToken());
-    N = Integer.parseInt(st.nextToken());
-    K = Integer.parseInt(st.nextToken());
-
-    map = new int[L + 1];
-    dist = new int[L + 1];
-    isVisited = new boolean[L + 1];
-
-    Arrays.fill(dist, Integer.MAX_VALUE);
-
-    Queue<Integer> queue = new LinkedList<>();
+    long L = Long.parseLong(st.nextToken());
+    int N = Integer.parseInt(st.nextToken());
+    int K = Integer.parseInt(st.nextToken());
 
     st = new StringTokenizer(br.readLine());
 
-    for(int i = 0; i < N; i++) {
-      int x = Integer.parseInt(st.nextToken());
+    Queue<long[]> queue = new LinkedList<>();
+    Set<Long> visited = new HashSet<>();
 
-      map[x] = 1;
-      queue.add(x);
-      dist[x] = 0;
-      isVisited[x] = true;
+    for (int i = 0; i < N; i++) {
+      long x = Long.parseLong(st.nextToken());
+      queue.add(new long[]{x, 0});
+      visited.add(x);
     }
 
-    bfs(queue);
+    List<Long> answer = new ArrayList<>();
+    int[] dir = {-1, 1};
 
-    Arrays.sort(dist);
+    while (!queue.isEmpty() && answer.size() < K) {
+      long[] cur = queue.poll();
+      long x = cur[0];
+      long d = cur[1];
 
-    for(int i = 0; i < K; i++) {
-      sb.append(dist[i]).append("\n");
-    }
+      answer.add(d);
 
-    System.out.print(sb);
-
-  }
-
-  static void bfs(Queue<Integer> queue) {
-    while(!queue.isEmpty()) {
-      int curX = queue.poll();
-
-      for(int i = 0; i < 2; i++) {
-        int nextX = curX + dirX[i];
-
-        if(nextX >= 0 && nextX <= L) {
-          if (!isVisited[nextX]) {
-            dist[nextX] = dist[curX] + 1;
-            queue.add(nextX);
-            isVisited[nextX] = true;
-          }
+      for (int i = 0; i < 2; i++) {
+        long nx = x + dir[i];
+        if (nx >= 0 && nx <= L && !visited.contains(nx)) {
+          queue.add(new long[]{nx, d + 1});
+          visited.add(nx);
         }
       }
     }
-  }
 
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < K; i++) {
+      sb.append(answer.get(i)).append("\n");
+    }
+
+    System.out.print(sb);
+  }
 }
