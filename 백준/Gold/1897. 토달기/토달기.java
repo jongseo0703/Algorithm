@@ -52,13 +52,14 @@ public class Main {
             isVisited[i] = true;
             queue.add(next);
 
-            if(longest.length() < next.length()) {
+            if(next.length() > longest.length()) {
               longest = next;
             }
           }
         }
       }
     }
+
     return longest;
   }
 
@@ -76,6 +77,7 @@ public class Main {
       else {
         diff++;
         j++;
+
         if(diff > 1) {
           return false;
         }
